@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="fill_parent" tools:context=".MainActivity"
+    android:id="@+id/mainLayout"
+    android:background="#000000"
+    android:theme="@style/AppTheme">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="13:37"
+        android:id="@+id/timeView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:textSize="144sp"
+        android:typeface="normal"
+        android:layout_marginRight="-6dp"
+        android:layout_marginTop="-48dp"
+        android:layout_marginBottom="-24dp"
+        android:fontFamily="sans-serif-medium" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeView"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sunday, 25 December"
+            android:paddingBottom="6dp"
+            android:id="@+id/dateView"
+            android:textColor="#ffffff"
+            android:typeface="normal"
+            android:textSize="48sp"
+            android:freezesText="true"
+            android:fontFamily="sans-serif-light"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <RelativeLayout
+            android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/dateView"
+            android:layout_marginRight="0dp"
+            android:paddingTop="8dp"
+            android:layout_alignParentRight="true"
+            android:background="#7f7f7f"
+            android:layout_marginTop="4dp"></RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
