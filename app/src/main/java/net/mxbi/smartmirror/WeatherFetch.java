@@ -23,7 +23,7 @@ public class WeatherFetch {
                     (HttpURLConnection)url.openConnection();
 
             connection.addRequestProperty("x-api-key",
-                    context.getString(R.string.openWeatherMapsAPIKey));
+                    context.getString(R.string.openWeatherMapAPIKey));
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
