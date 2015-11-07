@@ -14,6 +14,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Calendar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import net.mxbi.smartmirror.model.Location;
+import net.mxbi.smartmirror.model.Weather;
+
+import android.os.AsyncTask;
+
+
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -56,9 +67,16 @@ public class MainActivity extends ActionBarActivity {
         fiveSecondTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-               updateTimeDate();
+                //updateTimeDate();
             }
-        },0,5000);
+        }, 0, 5000);
+
+        // UNFINISHED WEATHER CODE
+
+        String city = "London, UK";
+
+        JSONWeatherTask task = new JSONWeatherTask();
+        task.execute(new String[]{city});
 
     }
 
@@ -77,29 +95,67 @@ public class MainActivity extends ActionBarActivity {
         String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
         int dayOfWeekValue = c.get(Calendar.DAY_OF_WEEK);
         String dayOfWeek = "failed";
-        if(dayOfWeekValue == Calendar.SUNDAY){dayOfWeek = "Sunday";}
-        if(dayOfWeekValue == Calendar.MONDAY){dayOfWeek = "Monday";}
-        if(dayOfWeekValue == Calendar.TUESDAY){dayOfWeek = "Tuesday";}
-        if(dayOfWeekValue == Calendar.WEDNESDAY){dayOfWeek = "Wednesday";}
-        if(dayOfWeekValue == Calendar.THURSDAY){dayOfWeek = "Thursday";}
-        if(dayOfWeekValue == Calendar.FRIDAY){dayOfWeek = "Friday";}
-        if(dayOfWeekValue == Calendar.SATURDAY){dayOfWeek = "Saturday";}
+        if (dayOfWeekValue == Calendar.SUNDAY) {
+            dayOfWeek = "Sunday";
+        }
+        if (dayOfWeekValue == Calendar.MONDAY) {
+            dayOfWeek = "Monday";
+        }
+        if (dayOfWeekValue == Calendar.TUESDAY) {
+            dayOfWeek = "Tuesday";
+        }
+        if (dayOfWeekValue == Calendar.WEDNESDAY) {
+            dayOfWeek = "Wednesday";
+        }
+        if (dayOfWeekValue == Calendar.THURSDAY) {
+            dayOfWeek = "Thursday";
+        }
+        if (dayOfWeekValue == Calendar.FRIDAY) {
+            dayOfWeek = "Friday";
+        }
+        if (dayOfWeekValue == Calendar.SATURDAY) {
+            dayOfWeek = "Saturday";
+        }
         int monthValue = c.get(Calendar.MONTH);
 
         // Get month string
         String month = "failed";
-        if(monthValue == Calendar.JANUARY){month = "January";}
-        if(monthValue == Calendar.FEBRUARY){month = "February";}
-        if(monthValue == Calendar.MARCH){month = "March";}
-        if(monthValue == Calendar.APRIL){month = "April";}
-        if(monthValue == Calendar.MAY){month = "May";}
-        if(monthValue == Calendar.JUNE){month = "June";}
-        if(monthValue == Calendar.JULY){month = "July";}
-        if(monthValue == Calendar.AUGUST){month = "August";}
-        if(monthValue == Calendar.SEPTEMBER){month = "September";}
-        if(monthValue == Calendar.OCTOBER){month = "October";}
-        if(monthValue == Calendar.NOVEMBER){month = "November";}
-        if(monthValue == Calendar.DECEMBER){month = "December";}
+        if (monthValue == Calendar.JANUARY) {
+            month = "January";
+        }
+        if (monthValue == Calendar.FEBRUARY) {
+            month = "February";
+        }
+        if (monthValue == Calendar.MARCH) {
+            month = "March";
+        }
+        if (monthValue == Calendar.APRIL) {
+            month = "April";
+        }
+        if (monthValue == Calendar.MAY) {
+            month = "May";
+        }
+        if (monthValue == Calendar.JUNE) {
+            month = "June";
+        }
+        if (monthValue == Calendar.JULY) {
+            month = "July";
+        }
+        if (monthValue == Calendar.AUGUST) {
+            month = "August";
+        }
+        if (monthValue == Calendar.SEPTEMBER) {
+            month = "September";
+        }
+        if (monthValue == Calendar.OCTOBER) {
+            month = "October";
+        }
+        if (monthValue == Calendar.NOVEMBER) {
+            month = "November";
+        }
+        if (monthValue == Calendar.DECEMBER) {
+            month = "December";
+        }
         String date = dayOfWeek + ", " + dayOfMonth + " " + month;
 
         //Display
@@ -122,4 +178,29 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
+
+    private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
+
+        @Override
+        protected Weather doInBackground(String... params) {
+            Weather weather = new Weather();
+            String data = ((new WeatherHttpClient()).getWeatherData(params[0], getApplicationContext()));
+
+            
+
+            try {
+                weather = JSONWeatherParser.getWeather(data);
+
+                // Let's retrieve the icon
+                weather.iconData = ((new WeatherHttpClient()).getImage(weather.currentCondition.getIcon()));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return weather;
+
+        }
+
+    }
+
 }
