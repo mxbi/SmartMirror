@@ -5,10 +5,10 @@ UI is currently hardcoded for tvdpi at 1280x800, the Nexus 7 2012, on similar de
 
 ### Features
 
-Auto-updating Time and date
-*TODO:* Weather Display
-*TODO:* Calendar Display
-*TODO:* Any other cool features
+* Auto-updating Time and date
+* *TODO:* Weather Display
+* *TODO:* Calendar Display
+* *TODO:* Any other cool features
 
 ### Setup
 
