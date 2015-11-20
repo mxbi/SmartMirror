@@ -1,8 +1,10 @@
 package net.mxbi.smartmirror;
 
+import android.os.Debug;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,18 +12,17 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Calendar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.os.AsyncTask;
-
-
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -67,6 +68,17 @@ public class MainActivity extends ActionBarActivity {
                 updateTimeDate();
             }
         }, 0, 5000);
+
+        // Get temperature // temporary code, proof-of-concept
+        //final String tempFinal;
+        Timer tenMinuteTimer = new Timer();
+        tenMinuteTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String temperature = fetchTemperatureData("2de143494c0b295cca9337e1e96b00e0", "guildford");
+            }
+        }, 0, 600000);
+
 
     }
 
@@ -167,6 +179,53 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    public String fetchTemperatureData(String apiKey, String city) {
+        // Create URL String
+        String baseURL = "http://api.openweathermap.org/data/2.5/weather?mode=xml&units=metric";
+        String fetchURL = baseURL + "&appid=" + apiKey + "&q=" + city;
+
+        // String to return
+        String temperature = "null";
+
+        URL finalURL;
+        try {
+            // Open connection to URL
+            finalURL = new URL(fetchURL);
+            HttpURLConnection urlConnection = (HttpURLConnection) finalURL.openConnection();
+
+            // Initialise XML parser
+            XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
+            XmlPullParser weatherParser = xmlFactoryObject.newPullParser();
+
+            // Set parser input stream to urlConnection
+            weatherParser.setInput(urlConnection.getInputStream(), null);
+
+            // Parse temperature data
+            int event = weatherParser.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                String name = weatherParser.getName();
+                switch (event) {
+                    case XmlPullParser.START_TAG:
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        if (name.equals("temperature")) {
+                            temperature = weatherParser.getAttributeValue(null, "value");
+                        }
+                        break;
+                }
+                event = weatherParser.next();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+
+        return temperature;
     }
 
 }
