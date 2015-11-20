@@ -183,9 +183,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Weather doInBackground(String... params) {
             Weather weather = new Weather();
-            String data = ((new WeatherHttpClient()).getWeatherData(params[0], getApplicationContext()));
-
-            
+            String data = (new WeatherHttpClient().getWeatherData(params[0]));
 
             try {
                 weather = JSONWeatherParser.getWeather(data);

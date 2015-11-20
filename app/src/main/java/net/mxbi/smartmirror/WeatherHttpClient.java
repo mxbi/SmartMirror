@@ -36,18 +36,17 @@ import java.net.URL;
  */
 public class WeatherHttpClient {
 
-	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
+	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=&appid=f871834bcf618b76de91aacada2a925b";
 	private static String IMG_URL = "http://openweathermap.org/img/w/";
 
 	
-	public String getWeatherData(String location, Context context) {
+	public String getWeatherData(String location) {
 		HttpURLConnection con = null ;
 		InputStream is = null;
 
 		try {
 			con = (HttpURLConnection) ( new URL(BASE_URL + location)).openConnection();
 			con.setRequestMethod("GET");
-            con.addRequestProperty("x-api-key", context.getString(R.string.openWeatherMapAPIKey));
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			con.connect();

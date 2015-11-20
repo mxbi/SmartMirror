@@ -14,16 +14,13 @@ import android.util.Log;
 public class WeatherFetch {
 
     private static final String OPEN_WEATHER_MAP_API =
-            "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
+            "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=f871834bcf618b76de91aacada2a925b";
 
     public static JSONObject getJSON(Context context, String city){
         try {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_API, city));
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
-
-            connection.addRequestProperty("x-api-key",
-                    context.getString(R.string.openWeatherMapAPIKey));
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
