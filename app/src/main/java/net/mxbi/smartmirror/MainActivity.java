@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 
         String city = "London, UK";
         JSONWeatherTask task = new JSONWeatherTask();
-        //task.execute(new String[]{city});
+        task.execute(new String[]{city});
 
     }
 
@@ -183,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Weather doInBackground(String... params) {
             Weather weather = new Weather();
-            String data = (new WeatherHttpClient().getWeatherData(params[0]));
+            String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
 
             try {
                 weather = JSONWeatherParser.getWeather(data);
