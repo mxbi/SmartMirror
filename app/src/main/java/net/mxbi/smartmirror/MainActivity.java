@@ -67,16 +67,15 @@ public class MainActivity extends ActionBarActivity {
         fiveSecondTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                //updateTimeDate();
+                updateTimeDate();
             }
         }, 0, 5000);
 
         // UNFINISHED WEATHER CODE
 
         String city = "London, UK";
-
         JSONWeatherTask task = new JSONWeatherTask();
-        task.execute(new String[]{city});
+        //task.execute(new String[]{city});
 
     }
 
