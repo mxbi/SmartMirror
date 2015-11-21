@@ -75,9 +75,9 @@ public class MainActivity extends ActionBarActivity {
         tenMinuteTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                String temperature = fetchTemperatureData("2de143494c0b295cca9337e1e96b00e0", "guildford");
+                fetchTemperatureData("2de143494c0b295cca9337e1e96b00e0", "guildford");
             }
-        }, 0, 600000);
+        }, 5000, 600000);
 
 
     }
@@ -181,7 +181,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public String fetchTemperatureData(String apiKey, String city) {
+    public void fetchTemperatureData(String apiKey, String city) {
         // Create URL String
         String baseURL = "http://api.openweathermap.org/data/2.5/weather?mode=xml&units=metric";
         String fetchURL = baseURL + "&appid=" + apiKey + "&q=" + city;
@@ -212,7 +212,8 @@ public class MainActivity extends ActionBarActivity {
 
                     case XmlPullParser.END_TAG:
                         if (name.equals("temperature")) {
-                            temperature = weatherParser.getAttributeValue(null, "value");
+                            //temperature = weatherParser.getAttributeValue(null, "value");
+                            temperature = weatherParser.getText();
                         }
                         break;
                 }
@@ -225,7 +226,21 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        return temperature;
+        displayTemperatureData(temperature);
+    }
+
+    public void displayTemperatureData(String temperature) {
+        final String tempFinal = temperature;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView tempDisplay = (TextView) findViewById(R.id.temperatureTestView);
+
+                tempDisplay.setText(tempFinal);
+            }
+        });
+
     }
 
 }

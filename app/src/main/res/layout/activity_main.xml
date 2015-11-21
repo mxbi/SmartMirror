@@ -22,6 +22,7 @@
         android:fontFamily="sans-serif-medium" />
 
     <RelativeLayout
+        android:id="@+id/dateViewLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/timeView"
@@ -53,5 +54,13 @@
             android:layout_marginTop="4dp"></RelativeLayout>
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temperatureTestView"
+        android:layout_below="@id/dateViewLayout"
+        android:text="loading temp"
+        android:textColor="#ffffff"/>
 
 </RelativeLayout>
